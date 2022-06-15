@@ -3,10 +3,7 @@ pragma solidity ^0.7.5;
 
 contract Sidekick {
     function sendAlert(address hero) external {
-        (bool success, ) = hero.call(abi.encodeWithSignature(
-            "" // TODO: alert the hero! 
-        ));
-
+        (bool success, ) = hero.call(abi.encodeWithSignature("alert()"));
         require(success);
     }
 }

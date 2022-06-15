@@ -5,6 +5,7 @@ contract Storage {
     address public owner;
     address public behavior;
     bool public isSuperCharged;
+    bool public isInitialized;
 }
 
 // TODO: ensure the Hero can still superCharge, but can't be hacked!
@@ -15,7 +16,6 @@ contract Hero is Storage {
         (bool success, ) = behavior.delegatecall(abi.encodeWithSignature(
             "initialize(address)", _owner
         ));
-
         require(success);
     }
 
@@ -37,7 +37,9 @@ contract Hero is Storage {
 contract Behavior is Storage {
     // this function is called on contract deployment to set the owner
     function initialize(address _owner) external {
+        require(!isInitialized);
         owner = _owner;
+        isInitialized = true;
     }
 
     function superCharge() external {
